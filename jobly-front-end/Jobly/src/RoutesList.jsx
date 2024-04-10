@@ -22,7 +22,7 @@ function RoutesList() {
             <Route path='/' element={<Homepage />} />
             <Route path='/companies' element={<CompanyList />} />
             <Route path='/jobs' element={<JobList />} />
-            <Route path='/company/:name' element={<CompanyDetail />} />
+            <Route path='/companies/:name' element={<CompanyDetail />} />
             <Route path='*' element={<NotFound />} />
         </Routes>
     );

@@ -1,7 +1,5 @@
 
-
-
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL || "http://localhost:3001";
 
 /** API Class.
  *
@@ -67,6 +65,15 @@ class JoblyApi {
     return res.company;
   }
 
+  static async getJobs(searchData) {
+    let data = "";
+    if (searchData.length !== 0) {
+      data = { title: searchData };
+    }
+
+    let res = await this.request(`jobs`, data);
+    return res.jobs;
+  }
   // obviously, you'll add a lot here ...
 }
 

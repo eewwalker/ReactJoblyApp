@@ -10,7 +10,7 @@ import { useState } from "react";
  */
 
 
-function SearchInput({ handleCompanySearch }) {
+function SearchInput({ handleSubmit }) {
     const initialValue = '';
     const [searchInput, setSearchInput] = useState(initialValue);
 
@@ -24,7 +24,7 @@ function SearchInput({ handleCompanySearch }) {
     //trim search input here
     function handleSearch(evt) {
         evt.preventDefault();
-        handleCompanySearch(searchInput.trim());
+        handleSubmit(searchInput.trim());
         setSearchInput(initialValue);
     }
     return (

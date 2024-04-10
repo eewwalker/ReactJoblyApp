@@ -14,7 +14,8 @@ import CompanyCard from "./CompanyCard";
  * App-> RoutesList -> CompanyList
  */
 
-
+//start companies with null
+//implement loading spinner
 function CompanyList() {
     const [companies, setCompanies] = useState([]);
     const [searchInput, setSearchInput] = useState("");
@@ -40,7 +41,7 @@ function CompanyList() {
 
     return (
         <div className="CompanyList col-md-8 offset-md-2">
-            <SearchInput handleCompanySearch={handleCompanySearch} />
+            <SearchInput handleSubmit={handleCompanySearch} />
             <h1 className="CompanyList-title text-center">{title}</h1>
             {companies.length ?
                 companies.map(c => <CompanyCard key={c.handle} companyData={c} />)

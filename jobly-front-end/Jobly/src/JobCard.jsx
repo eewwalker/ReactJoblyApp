@@ -1,7 +1,7 @@
 /**
  * JobCard component renders info about Job
  *
- * Props: jobs: [list of jobs from company]
+ * Props: jobData
  * State: none
  *
  * App-> RoutesList -> {CompanyDetail, JobList} -> JobCardList -> JobCard

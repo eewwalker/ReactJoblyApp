@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
  *
  * App-> NavBar
  */
+
+//Can use navlink component
 function NavBar() {
     return (
         <div className="Navbar">
