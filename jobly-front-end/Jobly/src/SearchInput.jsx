@@ -24,6 +24,7 @@ function SearchInput({ handleCompanySearch }) {
     }
 
     /** Send company data to parent and reset search input to initial value */
+    //trim search input here
     function handleSearch(evt) {
         evt.preventDefault();
         handleCompanySearch(searchInput);

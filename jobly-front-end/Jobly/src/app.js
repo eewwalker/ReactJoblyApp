@@ -20,6 +20,7 @@ class JoblyApi {
     "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
 
   static async request(endpoint, data = {}, method = "GET") {
+    console.log(data);
     const url = new URL(`${BASE_URL}/${endpoint}`);
     const headers = {
       authorization: `Bearer ${JoblyApi.token}`,
@@ -49,8 +50,10 @@ class JoblyApi {
   // Individual API routes
 
   /** Get all companies */
-  static async getCompanies() {
-    let res = await this.request(`companies`);
+  //build objects here
+  static async getCompanies(searchData = {}) {
+    console.log('SEARCH DTA AT API', searchData);
+    let res = await this.request(`companies`, searchData);
     return res.companies;
   }
 
