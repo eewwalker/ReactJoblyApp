@@ -1,7 +1,7 @@
 
 
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+const BASE_URL = "http://localhost:3001";
 
 /** API Class.
  *
@@ -47,6 +47,12 @@ class JoblyApi {
   }
 
   // Individual API routes
+
+  /** Get all companies */
+  static async getCompanies() {
+    let res = await this.request(`companies`);
+    return res.companies;
+  }
 
   /** Get details on a company by handle. */
 
