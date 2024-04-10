@@ -50,10 +50,13 @@ class JoblyApi {
   // Individual API routes
 
   /** Get all companies */
-  //build objects here
-  static async getCompanies(searchData = {}) {
-    console.log('SEARCH DTA AT API', searchData);
-    let res = await this.request(`companies`, searchData);
+  static async getCompanies(searchData) {
+    let data = "";
+    if (searchData.length !== 0) {
+      data = { nameLike: searchData };
+    }
+
+    let res = await this.request(`companies`, data);
     return res.companies;
   }
 

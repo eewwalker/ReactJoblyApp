@@ -11,23 +11,20 @@ import { useState } from "react";
 
 
 function SearchInput({ handleCompanySearch }) {
-    const initialValue = { search: "" };
+    const initialValue = '';
     const [searchInput, setSearchInput] = useState(initialValue);
 
     /** Get company data from input field and update state*/
     function handleChange(evt) {
-        const { name, value } = evt.target;
-        setSearchInput(sData => ({
-            ...sData,
-            [name]: value,
-        }));
+        const { value } = evt.target;
+        setSearchInput(value);
     }
 
     /** Send company data to parent and reset search input to initial value */
     //trim search input here
     function handleSearch(evt) {
         evt.preventDefault();
-        handleCompanySearch(searchInput);
+        handleCompanySearch(searchInput.trim());
         setSearchInput(initialValue);
     }
     return (
@@ -37,7 +34,7 @@ function SearchInput({ handleCompanySearch }) {
                     <div className="col-8">
                         <input className="form-control form-control-lg" id="search"
                             name="search"
-                            value={searchInput.name}
+                            value={searchInput}
                             placeholder="Enter search term..."
                             onChange={handleChange}
                         />

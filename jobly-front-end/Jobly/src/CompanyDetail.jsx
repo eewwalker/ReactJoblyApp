@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
-import JoblyApi from "./app";
+import JoblyApi from "./api";
+import JobCardList from "./JobCardList";
 import { useEffect, useState } from "react";
 /**
  * CompanyDetail component renders info about Company
@@ -11,25 +12,24 @@ import { useEffect, useState } from "react";
  */
 
 function CompanyDetail() {
-    const [companyData, setCompanyData] = useState(null);
+    const [companyData, setCompanyData] = useState('');
+    const [jobs, setJobs] = useState([]);
     const companyHandle = useParams();
 
     useEffect(function fetchCompany() {
         async function fetchCompanyData() {
             const resp = await JoblyApi.getCompany(companyHandle.name);
-            console.log('resp', resp);
             setCompanyData(resp);
+            setJobs(resp.jobs);
         }
         fetchCompanyData();
     }, []);
 
-
     return (
-        <div className="CompanyDetail">
-            <h1>Company Detail</h1>
-            <h1>{companyData.title}</h1>
-            <h2>{companyData.description}</h2>
-            <JobCardList jobs={companyData.jobs} />
+        <div className="CompanyDetail col-md-8 offset-md-2">
+            <h4>{companyData.name}</h4>
+            <p>{companyData.description}</p>
+            <JobCardList jobs={jobs} />
         </div>
     );
 }
