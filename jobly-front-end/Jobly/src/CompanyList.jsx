@@ -15,20 +15,25 @@ import CompanyCard from "./CompanyCard";
 
 function CompanyList() {
     const [companies, setCompanies] = useState([]);
+    const [title, setTitle] = useState("All Companies");
 
     useEffect(function fetchCompaniesFromDB() {
         async function fetchCompanies() {
-            const resp = await JoblyApi.getCompanies();
+            const resp = await JoblyApi.getCompanies(title);
             setCompanies(resp);
         }
         fetchCompanies();
-    }, []);
+    }, [title]);
+
+    function handleCompanySearch(companyData) {
+        console.log('company', companyData);
+    }
 
 
     return (
-        <div className="CompanyList">
-            <SearchInput />
-            <h1>All Companies</h1>
+        <div className="CompanyList col-md-8 offset-md-2">
+            <SearchInput handleCompanySearch={handleCompanySearch} />
+            <h1 className="CompanyList-title text-center">{title}</h1>
             {companies.map(c => <CompanyCard key={c.handle} companyData={c} />)}
         </div>
     );
