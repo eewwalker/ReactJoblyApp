@@ -19,7 +19,6 @@ function CompanyList() {
     useEffect(function fetchCompaniesFromDB() {
         async function fetchCompanies() {
             const resp = await JoblyApi.getCompanies();
-            console.log('resp', resp);
             setCompanies(resp);
         }
         fetchCompanies();
