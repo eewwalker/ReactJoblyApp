@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 function CompanyCard({ companyData }) {
 
-
     return (
         <div className="CompanyCard">
             <Link className='CompanyCard card m-3 link-underline link-underline-opacity-0' to={`/company/${companyData.handle}`}>
