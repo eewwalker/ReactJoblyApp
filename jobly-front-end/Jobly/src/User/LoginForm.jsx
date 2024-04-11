@@ -9,39 +9,60 @@ import { useState } from "react";
  */
 
 
-function LoginForm({ updateUser }) {
+function LoginForm({ loginUser }) {
     const initialData = { username: '', password: '' };
-    const [loginUser, setLoginUser] = useState(initialData);
+    const [loginUserData, setloginUserData] = useState(initialData);
 
+    /** Update user information to state  */
     function handleChange(evt) {
         const { name, value } = evt.target;
-        loginUser(prev => ({
+        loginUserData(prev => ({
             ...prev,
             [name]: value
         }));
     }
 
+    /** handleLogin, send userData to parent and set values to initialData */
     function handleLogin(evt) {
         evt.preventDefault();
-        updateUser(loginUser);
-        setLoginUser(initialData);
+        loginUserData(loginUser);
+        setloginUserData(initialData);
 
     }
     return (
         <div className="LoginForm">
-            <form onSubmit={handleLogin}>
-                <label htmlFor="username">Username</label>
-                <input id="username"
-                    name="username"
-                    value={loginUser.username}
-                    onChange={handleChange} />
-                <label htmlFor="password">Password</label>
-                <input id="password"
-                    name="password"
-                    value={loginUser.password}
-                    onChange={handleChange} />
-            </form>
+            <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                <h2 className="mb-3">Log In</h2>
+                <div className="card">
+                    <div className="card-body">
+                        <form onSubmit={handleLogin}>
+                            <div className="mb-3">
+                                <label htmlFor="username" className="form-label">Username</label>
+                                <input className="form-control"
+                                    id="username"
+                                    name="username"
+                                    value={loginUserData.username}
+                                    onChange={handleChange} />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="password" className="form-label">Password</label>
+                                <input className="form-control"
+                                    id="password"
+                                    name="password"
+                                    value={loginUserData.password}
+                                    onChange={handleChange} />
+                            </div>
 
+                            <div className="d-grid">
+                                <button className="btn btn-primary">
+                                    Submit
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
