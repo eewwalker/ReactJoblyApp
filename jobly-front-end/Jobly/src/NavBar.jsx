@@ -12,6 +12,7 @@ import userContext from "./User/userContext";
  */
 
 //Can use navlink component
+//Refactor to make user links a component and anon links a component
 function NavBar({ logout }) {
     const { user } = useContext(userContext);
     return (

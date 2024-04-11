@@ -4,16 +4,17 @@ import { useNavigate } from "react-router-dom";
  * SignUp component renders form for user signp
  *
  * Props: signupUser()
- * State: signUpUser { username, password, firstName, lastName, email}
+ * State: signUpUser { username, password, firstName, lastName, email}, error[]
  *
  * App-> RoutesList -> SignupForm
  */
 
-
+//error should be plural
 function SignupForm({ signupUser }) {
     const initialData = { username: '', password: '', firstName: '', lastName: '', email: '' };
     const [signUpUserData, setsignUpUserData] = useState(initialData);
-    const navigate = useNavigate();
+    const [error, setError] = useState(null);
+    const navigate = useNavigate(null);
 
     /** Update user information to state  */
     function handleChange(evt) {
@@ -25,11 +26,15 @@ function SignupForm({ signupUser }) {
     }
 
     /** handleSignup, send userData to parent and set values to initialData */
-    function handleSignup(evt) {
+    async function handleSignup(evt) {
         evt.preventDefault();
-        signupUser(signUpUserData);
-        setsignUpUserData(initialData);
-        navigate("/");
+        try {
+            await signupUser(signUpUserData);
+            navigate("/");
+            setsignUpUserData(initialData);
+        } catch (err) {
+            setError(err);
+        }
 
     }
     return (
@@ -79,6 +84,12 @@ function SignupForm({ signupUser }) {
                                     value={signUpUserData.email}
                                     onChange={handleChange} />
                             </div>
+                            {error ?
+                                error.map((e, i) =>
+                                    <div className="alert alert-danger" roll="alert" key={i}>
+                                        <p className="mb-0 small">{e}</p>
+                                    </div>)
+                                : null}
                             <div className="d-grid">
                                 <button className="btn btn-primary">
                                     Submit

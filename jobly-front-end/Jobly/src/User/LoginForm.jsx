@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
  * Login component renders form for user login
  *
  * Props: none
- * State: loginUser { username, password}
+ * State: loginUser { username, password}, error[]
  *
  * App-> RoutesList -> LoginForm
  */
@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 function LoginForm({ loginUser }) {
     const initialData = { username: '', password: '' };
     const [loginUserData, setloginUserData] = useState(initialData);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     /** Update user information to state  */
@@ -25,11 +26,15 @@ function LoginForm({ loginUser }) {
     }
 
     /** handleLogin, send userData to parent and set values to initialData */
-    function handleLogin(evt) {
+    async function handleLogin(evt) {
         evt.preventDefault();
-        loginUser(loginUserData);
+        const loginErrors = await loginUser(loginUserData);
+
+        loginErrors ?
+            setError(loginErrors)
+            :
+            navigate("/");
         setloginUserData(initialData);
-        navigate("/");
 
     }
     return (
@@ -55,7 +60,12 @@ function LoginForm({ loginUser }) {
                                     value={loginUserData.password}
                                     onChange={handleChange} />
                             </div>
-
+                            {error ?
+                                error.map((e, i) =>
+                                    <div className="alert alert-danger" roll="alert" key={i}>
+                                        <p className="mb-0 small">{e}</p>
+                                    </div>)
+                                : null}
                             <div className="d-grid">
                                 <button className="btn btn-primary">
                                     Submit
