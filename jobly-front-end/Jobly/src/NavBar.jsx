@@ -10,7 +10,8 @@ import { Link, NavLink } from "react-router-dom";
  */
 
 //Can use navlink component
-function NavBar() {
+function NavBar({logout}) {
+    const { user } = useContext(userContext);
     return (
         <div className="Navbar">
 
@@ -25,12 +26,18 @@ function NavBar() {
                         <li className="nav-item me-4">
                             <NavLink className="Jobs nav-link" to="/jobs">Jobs</NavLink>
                         </li>
-                        {/* <li className="nav-item me-4">
+                        <li className="nav-item me-4">
+                            <NavLink className="Jobs nav-link" onclick={logout}>Profile</NavLink>
+                        </li>
+                        <li className="nav-item me-4">
                             <NavLink className="Jobs nav-link" to="/profile">Profile</NavLink>
-                        </li> */}
-                        {/* <li className="nav-item me-4">
-                            <NavLink className="Jobs nav-link" to="/profile">Login</NavLink>
-                        </li> */}
+                        </li>
+                        <li className="nav-item me-4">
+                            <NavLink className="Jobs nav-link" to="/login">Login</NavLink>
+                        </li>
+                        <li className="nav-item me-4">
+                            <NavLink className="Jobs nav-link" to="/signup">Signup</NavLink>
+                        </li>
                     </ul>
                 </div>
             </nav>
