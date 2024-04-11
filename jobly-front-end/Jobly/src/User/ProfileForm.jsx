@@ -1,39 +1,11 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-/**
- * SignUp component renders form for user signp
- *
- * Props: signupUser()
- * State: signUpUser { username, password, firstName, lastName, email}
- *
- * App-> RoutesList -> SignupForm
- */
+
+import userContext from "./userContext";
+import { useContext } from "react";
 
 
-function SignupForm({ signupUser }) {
-    const initialData = { username: '', password: '', firstName: '', lastName: '', email: '' };
-    const [signUpUserData, setsignUpUserData] = useState(initialData);
-    const navigate = useNavigate();
-
-    /** Update user information to state  */
-    function handleChange(evt) {
-        const { name, value } = evt.target;
-        setsignUpUserData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    }
-
-    /** handleSignup, send userData to parent and set values to initialData */
-    function handleSignup(evt) {
-        evt.preventDefault();
-        signupUser(signUpUserData);
-        setsignUpUserData(initialData);
-        navigate("/");
-
-    }
+function ProfileForm() {
     return (
-        <div className="SignupForm">
+        <div className="ProfileForm">
             <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                 <h2 className="mb-3">Sign Up</h2>
                 <div className="card">
@@ -81,7 +53,7 @@ function SignupForm({ signupUser }) {
                             </div>
                             <div className="d-grid">
                                 <button className="btn btn-primary">
-                                    Submit
+                                    Save Changes
                                 </button>
                             </div>
 
@@ -89,8 +61,9 @@ function SignupForm({ signupUser }) {
                     </div>
                 </div>
             </div>
+
         </div>
     );
 }
 
-export default SignupForm;
+export default ProfileForm;

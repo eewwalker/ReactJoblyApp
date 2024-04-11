@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 /**
  * Login component renders form for user login
  *
@@ -12,11 +13,12 @@ import { useState } from "react";
 function LoginForm({ loginUser }) {
     const initialData = { username: '', password: '' };
     const [loginUserData, setloginUserData] = useState(initialData);
+    const navigate = useNavigate();
 
     /** Update user information to state  */
     function handleChange(evt) {
         const { name, value } = evt.target;
-        loginUserData(prev => ({
+        setloginUserData(prev => ({
             ...prev,
             [name]: value
         }));
@@ -25,8 +27,9 @@ function LoginForm({ loginUser }) {
     /** handleLogin, send userData to parent and set values to initialData */
     function handleLogin(evt) {
         evt.preventDefault();
-        loginUserData(loginUser);
+        loginUser(loginUserData);
         setloginUserData(initialData);
+        navigate("/");
 
     }
     return (

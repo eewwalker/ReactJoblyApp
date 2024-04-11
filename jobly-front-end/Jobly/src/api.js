@@ -94,6 +94,10 @@ class JoblyApi {
     return userData.user;
   }
 
+  static resetToken() {
+    JoblyApi.token = '';
+  }
+
 }
 
 export default JoblyApi;

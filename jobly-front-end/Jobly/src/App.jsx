@@ -1,5 +1,5 @@
 
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Navigate } from "react-router-dom";
 import NavBar from './NavBar';
 import RoutesList from './RoutesList';
 import userContext from "./User/userContext";
@@ -12,16 +12,18 @@ import { jwtDecode } from "jwt-decode";
  * Props: none
  * State:
  * -user: {}
+ * -token: userToken
  *
  * App -> {NavBar, RoutesList}
 */
 
 function App() {
+  const initialToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
   const initialData = {
     user: null,
   };
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
+  const [token, setToken] = useState(initialToken);
 
 
   useEffect(function getUserDataFromDb() {
@@ -47,15 +49,25 @@ function App() {
 
   /** Update user with data from signupForm */
   async function signupUser(userData) {
+
     const token = await JoblyApi.signUp(userData);
     setToken(token);
+
+  }
+
+  /** logout user. set token back to initial token and Navigate back to home */
+  function logout() {
+    setToken(initialToken);
+    JoblyApi.resetToken();
+
+    return <Navigate to="/" />;
   }
 
   return (
     <div className="App">
       <BrowserRouter>
         <userContext.Provider value={{ user }} >
-          <NavBar />
+          <NavBar logout={logout} />
           <RoutesList loginUser={loginUser} signupUser={signupUser} />
         </userContext.Provider>
       </BrowserRouter>
