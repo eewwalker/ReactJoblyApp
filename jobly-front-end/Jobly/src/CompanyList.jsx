@@ -14,15 +14,13 @@ import CompanyCard from "./CompanyCard";
  * App-> RoutesList -> CompanyList
  */
 
-//start companies with null
-//implement loading spinner
+
 function CompanyList() {
-    const [companies, setCompanies] = useState([]);
+    const [companies, setCompanies] = useState(null);
     const [searchInput, setSearchInput] = useState("");
-    console.log(searchInput, 'SEARCH INPUT OUTSIDE OF USE EFFECt');
 
     useEffect(function fetchCompaniesFromDB() {
-        console.log(searchInput, 'SEARCH INPUT COMPANY INSIDE');
+        setCompanies(null);
 
         async function fetchCompanies() {
             const resp = await JoblyApi.getCompanies(searchInput);
@@ -41,13 +39,16 @@ function CompanyList() {
 
     return (
         <div className="CompanyList col-md-8 offset-md-2">
-            <SearchInput handleSubmit={handleCompanySearch} />
-            <h1 className="CompanyList-title text-center">{title}</h1>
-            {companies.length ?
-                companies.map(c => <CompanyCard key={c.handle} companyData={c} />)
-                : <p className="CompanyList-noResults text-center">Sorry, no results were found!</p>
+            {!companies ? <div>Loading...</div> :
+                <div>
+                    <SearchInput handleSubmit={handleCompanySearch} />
+                    <h1 className="CompanyList-title text-center">{title}</h1>
+                    {companies.length ?
+                        companies.map(c => <CompanyCard key={c.handle} companyData={c} />)
+                        : <p className="CompanyList-noResults text-center">Sorry, no results were found!</p>
+                    }
+                </div>
             }
-
         </div>
     );
 }

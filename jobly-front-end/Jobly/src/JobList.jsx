@@ -13,15 +13,13 @@ import SearchInput from './SearchInput';
  *
  * App => RoutesList => JobList => JobCardList => Jobs
  */
-//Set jobs to null
-//Loading spinner
-//useeffect?
+
 function JobList() {
-    const [jobs, setJobs] = useState([]);
+    const [jobs, setJobs] = useState(null);
     const [searchInput, setSearchInput] = useState("");
 
     useEffect(function fetchJobsFromDB() {
-
+        setJobs(null);
         async function fetchJobs() {
             const resp = await JoblyApi.getJobs(searchInput);
             setJobs(resp);
@@ -39,14 +37,17 @@ function JobList() {
 
     return (
         <div className="CompanyList col-md-8 offset-md-2">
-
-            <SearchInput handleSubmit={handleJobSearch} />
-            <h1 className="CompanyList-title text-center">{title}</h1>
-            {jobs.length
-            ?
-            <JobCardList jobs={jobs} />
-            :
-            <p className="text-center">Sorry No Results Were Found</p>}
+            {!jobs ? <div>Loading...</div> :
+                <div>
+                    <SearchInput handleSubmit={handleJobSearch} />
+                    <h1 className="CompanyList-title text-center">{title}</h1>
+                    {jobs.length
+                        ?
+                        <JobCardList jobs={jobs} />
+                        :
+                        <p className="text-center">Sorry No Results Were Found</p>}
+                </div>
+            }
         </div>
     );
 

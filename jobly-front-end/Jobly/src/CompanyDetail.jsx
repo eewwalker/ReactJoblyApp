@@ -13,38 +13,38 @@ import { useEffect, useState } from "react";
  *
  * App-> RoutesList -> CompanyDetail
  */
-//implement loading
+
 function CompanyDetail() {
     const [companyData, setCompanyData] = useState('');
     const [jobs, setJobs] = useState([]);
+    const [error, setError] = useState(null);
+
     const companyHandle = useParams();
 
     useEffect(function fetchCompany() {
         async function fetchCompanyData() {
             try {
-
                 const resp = await JoblyApi.getCompany(companyHandle.name);
                 setCompanyData(resp);
                 setJobs(resp.jobs);
-            } catch (err) {
-                console.log(err[0]);
-                return (
-                    <div><p>No Company Found: {err[0]}</p></div>
-                );
-
+            }
+            catch (err) {
+                setError(err);
             }
         }
         fetchCompanyData();
     }, []);
 
-    //Be explicit in the check to see if you have valid companyData. Catch the error...State for errors?
     return (
         <div className="CompanyDetail col-md-8 offset-md-2">
-
-            <h4>{companyData.name}</h4>
-            <p>{companyData.description}</p>
-            <JobCardList jobs={jobs} />
-
+            {!companyData && <div>Loading...</div>}
+            {error ? error.map((e, idx) => <div key={idx}>{e}</div>) :
+                <div>
+                    <h4>{companyData.name}</h4>
+                    <p>{companyData.description}</p>
+                    <JobCardList jobs={jobs} />
+                </div>
+            }
         </div>
     );
 }

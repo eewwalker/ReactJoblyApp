@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 /**
  * NavBar component links to Companies, Jobs, Home
@@ -20,11 +20,17 @@ function NavBar() {
 
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item me-4">
-                            <Link className="Companies nav-link" to="/companies">Companies</Link>
+                            <NavLink className="Companies nav-link" to="/companies">Companies</NavLink>
                         </li>
                         <li className="nav-item me-4">
-                            <Link className="Jobs nav-link" to="/jobs">Jobs</Link>
+                            <NavLink className="Jobs nav-link" to="/jobs">Jobs</NavLink>
                         </li>
+                        {/* <li className="nav-item me-4">
+                            <NavLink className="Jobs nav-link" to="/profile">Profile</NavLink>
+                        </li> */}
+                        {/* <li className="nav-item me-4">
+                            <NavLink className="Jobs nav-link" to="/profile">Login</NavLink>
+                        </li> */}
                     </ul>
                 </div>
             </nav>

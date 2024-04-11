@@ -18,7 +18,6 @@ class JoblyApi {
     "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
 
   static async request(endpoint, data = {}, method = "GET") {
-    console.log(data);
     const url = new URL(`${BASE_URL}/${endpoint}`);
     const headers = {
       authorization: `Bearer ${JoblyApi.token}`,
@@ -74,7 +73,15 @@ class JoblyApi {
     let res = await this.request(`jobs`, data);
     return res.jobs;
   }
-  // obviously, you'll add a lot here ...
+
+  //AUTH ROUTES
+
+  static async signup(userData) {
+    let res = await this.request('auth/register', userData, "POST");
+    JoblyApi.token = res.token;
+    return res.token;
+  }
+
 }
 
 export default JoblyApi;
