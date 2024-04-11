@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Error from "../Error";
+
 /**
  * SignUp component renders form for user signp
  *
@@ -9,11 +11,12 @@ import { useNavigate } from "react-router-dom";
  * App-> RoutesList -> SignupForm
  */
 
-//error should be plural
 function SignupForm({ signupUser }) {
     const initialData = { username: '', password: '', firstName: '', lastName: '', email: '' };
+
     const [signUpUserData, setsignUpUserData] = useState(initialData);
-    const [error, setError] = useState(null);
+    const [errors, setErrors] = useState(null);
+
     const navigate = useNavigate(null);
 
     /** Update user information to state  */
@@ -33,7 +36,7 @@ function SignupForm({ signupUser }) {
             navigate("/");
             setsignUpUserData(initialData);
         } catch (err) {
-            setError(err);
+            setErrors(err);
         }
 
     }
@@ -84,11 +87,8 @@ function SignupForm({ signupUser }) {
                                     value={signUpUserData.email}
                                     onChange={handleChange} />
                             </div>
-                            {error ?
-                                error.map((e, i) =>
-                                    <div className="alert alert-danger" roll="alert" key={i}>
-                                        <p className="mb-0 small">{e}</p>
-                                    </div>)
+                            {errors ?
+                                errors.map((e, i) => <Error key={i} error={e} />)
                                 : null}
                             <div className="d-grid">
                                 <button className="btn btn-primary">

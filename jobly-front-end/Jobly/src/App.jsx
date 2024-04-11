@@ -18,22 +18,25 @@ import { jwtDecode } from "jwt-decode";
 */
 
 function App() {
-
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
-
-
 
   useEffect(function getUserDataFromDb() {
 
     async function fetchUserData() {
-      if (token) {
+      console.log('token', localStorage.getItem('logIntoken'));
+      if (localStorage.getItem('logIntoken')) {
         try {
-          const { username } = jwtDecode(token);
+          const { username } = jwtDecode(localStorage.getItem('logIntoken'));
+
+          JoblyApi.token = localStorage.getItem('logIntoken');
+
           const resp = await JoblyApi.getUserData(username);
           setUser(resp);
+
         } catch (err) {
           setUser(null);
+
         }
       } else {
         setUser(null);
@@ -45,24 +48,26 @@ function App() {
 
   /** Update user with data from loginForm */
   async function loginUser(userData) {
-    try {
-      const token = await JoblyApi.login(userData);
-      setToken(token);
-    } catch (err) {
-      return err;
-    }
+    const token = await JoblyApi.login(userData);
+    setToken(token);
+    localStorage.setItem('logIntoken', token);
+
   }
 
   /** Update user with data from signupForm */
   async function signupUser(userData) {
     const token = await JoblyApi.signUp(userData);
     setToken(token);
+    localStorage.setItem('signUptoken', token);
 
   }
 
   /** logout user. set token back to initial token and Navigate back to home */
   function logout() {
+    localStorage.removeItem('logIntoken');
+    console.log('tokenb4logout', token);
     setToken(null);
+    console.log('logouttoken', token);
     JoblyApi.resetToken();
 
     return <Navigate to="/" />;

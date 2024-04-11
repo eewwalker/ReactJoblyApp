@@ -1,19 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Error from "../Error";
 /**
  * Login component renders form for user login
  *
- * Props: none
- * State: loginUser { username, password}, error[]
+ * Props: loginUser
+ * State:
+ * -loginUserData { username, password}
+ * -errors [error msg..]
  *
- * App-> RoutesList -> LoginForm
+ * App-> RoutesList -> LoginForm-> Error
  */
 
 
 function LoginForm({ loginUser }) {
     const initialData = { username: '', password: '' };
+
     const [loginUserData, setloginUserData] = useState(initialData);
-    const [error, setError] = useState(null);
+    const [errors, setErrors] = useState(null);
+
     const navigate = useNavigate();
 
     /** Update user information to state  */
@@ -28,13 +33,14 @@ function LoginForm({ loginUser }) {
     /** handleLogin, send userData to parent and set values to initialData */
     async function handleLogin(evt) {
         evt.preventDefault();
-        const loginErrors = await loginUser(loginUserData);
-
-        loginErrors ?
-            setError(loginErrors)
-            :
+        try {
+            await loginUser(loginUserData);
             navigate("/");
-        setloginUserData(initialData);
+            setloginUserData(initialData);
+
+        } catch (err) {
+            setErrors(err);
+        }
 
     }
     return (
@@ -60,11 +66,8 @@ function LoginForm({ loginUser }) {
                                     value={loginUserData.password}
                                     onChange={handleChange} />
                             </div>
-                            {error ?
-                                error.map((e, i) =>
-                                    <div className="alert alert-danger" roll="alert" key={i}>
-                                        <p className="mb-0 small">{e}</p>
-                                    </div>)
+                            {errors ?
+                                errors.map((e, i) => <Error key={i} error={e} />)
                                 : null}
                             <div className="d-grid">
                                 <button className="btn btn-primary">
