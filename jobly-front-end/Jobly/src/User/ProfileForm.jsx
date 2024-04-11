@@ -2,29 +2,28 @@
 import userContext from "./userContext";
 import { useContext } from "react";
 
-
+/**
+ * ProfileForm component renders form for user update
+ *
+ * Props:
+ * State:
+ *
+ * App-> RoutesList -> ProfileForm
+ */
 function ProfileForm() {
     return (
         <div className="ProfileForm">
             <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-                <h2 className="mb-3">Sign Up</h2>
+                <h2 className="mb-3">Profile</h2>
                 <div className="card">
                     <div className="card-body">
-                        <form onSubmit={handleSignup}>
+                        <form onSubmit={updateUser}>
                             <div className="mb-3">
                                 <label htmlFor="username" className="form-label">Username</label>
                                 <input className="form-control"
                                     id="username"
                                     name="username"
                                     value={signUpUserData.username}
-                                    onChange={handleChange} />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="password" className="form-label">Password</label>
-                                <input className="form-control"
-                                    id="password"
-                                    name="password"
-                                    value={signUpUserData.password}
                                     onChange={handleChange} />
                             </div>
                             <div className="mb-3">
