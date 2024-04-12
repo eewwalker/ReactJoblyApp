@@ -11,68 +11,102 @@ import { jwtDecode } from "jwt-decode";
  *
  * Props: none
  * State:
- * -user: {}
- * -token: userToken
+ * -data: null || {}, token: userToken, errors
  *
  * App -> {NavBar, RoutesList}
 */
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token') || null);
-  const [loggedOut, setLogOutState] = useState(false);
+  const [data, setData] = useState({
+    user: null,
+    hasDataLoaded: true,
+    token: localStorage.getItem('token'),
+    errors: null
+
+  });
+
+
   useEffect(function getUserDataFromDb() {
 
     async function fetchUserData() {
 
-      if (token) {
+      if (data.token) {
         try {
-          const { username } = jwtDecode(token);
+          const { username } = jwtDecode(data.token);
 
-          JoblyApi.token = token;
+          JoblyApi.token = data.token;
 
           const resp = await JoblyApi.getUserData(username);
-          setUser(resp);
+          setData(data => ({
+            ...data,
+            user: resp,
+            hasDataLoaded: true
+          }));
 
         } catch (err) {
-          setUser(null);
+          setData(data => ({
+            ...data,
+            user: null,
+            errors: err
+          }));
 
         }
       } else {
-        setUser(null);
+        setData(data => ({
+          ...data,
+          user: null
+        }));
       }
     }
     fetchUserData();
 
-  }, [token]);
+  }, [data.token]);
 
   /** Update user with data from loginForm */
   async function loginUser(userData) {
     const token = await JoblyApi.login(userData);
-    setToken(token);
     localStorage.setItem('token', token);
+    setData(data => ({
+      ...data,
+      hasDataLoaded: true,
+      token: token
+    }));
+
   }
 
   /** Update user with data from signupForm */
   async function signupUser(userData) {
     const token = await JoblyApi.signUp(userData);
-    setToken(token);
     localStorage.setItem('token', token);
+    setData(data => ({
+      ...data,
+      hasDataLoaded: true,
+      token: token
+    }));
 
   }
 
   /** logout user. set token back to initial token and Navigate back to home */
   function logout() {
     localStorage.removeItem('token');
-    setToken(null);
+    setData(data => ({
+      ...data,
+      token: null
+    }));
+
     JoblyApi.resetToken();
-    setLogOutState(true);
   }
+
+  if (data.token && data.user === null) {
+    return < p > Loading...</p >;
+  }
+
 
   return (
     <div className="App">
+      {!data.hasDataLoaded && <p>Loading...</p>}
       <BrowserRouter>
-        <userContext.Provider value={{ user }} >
+        <userContext.Provider value={data} >
           <NavBar logout={logout} />
           <RoutesList loginUser={loginUser} signupUser={signupUser} />
         </userContext.Provider>

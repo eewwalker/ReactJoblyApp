@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Error from "../Error";
+import Alert from "../Alert";
 /**
  * Login component renders form for user login
  *
@@ -9,15 +9,15 @@ import Error from "../Error";
  * -loginUserData { username, password}
  * -errors [error msg..]
  *
- * App-> RoutesList -> LoginForm-> Error
+ * App-> RoutesList -> LoginForm-> Alert
  */
 
 
 function LoginForm({ loginUser }) {
-    const initialData = { username: '', password: '' };
+    const initialData = { username: '', password: '', errors: null };
+
 
     const [loginUserData, setloginUserData] = useState(initialData);
-    const [errors, setErrors] = useState(null);
 
     const navigate = useNavigate();
 
@@ -34,12 +34,17 @@ function LoginForm({ loginUser }) {
     async function handleLogin(evt) {
         evt.preventDefault();
         try {
-            await loginUser(loginUserData);
+            const { errors, ...rest } = loginUserData;
+
+            await loginUser(rest);
             navigate("/");
             setloginUserData(initialData);
 
         } catch (err) {
-            setErrors(err);
+            setloginUserData(data => ({
+                ...data,
+                errors: err
+            }));
         }
 
     }
@@ -66,8 +71,8 @@ function LoginForm({ loginUser }) {
                                     value={loginUserData.password}
                                     onChange={handleChange} />
                             </div>
-                            {errors ?
-                                errors.map((e, i) => <Error key={i} error={e} />)
+                            {loginUserData.errors ?
+                                loginUserData.errors.map((e, i) => <Alert key={i} message={e} type={"danger"} />)
                                 : null}
                             <div className="d-grid">
                                 <button className="btn btn-primary">

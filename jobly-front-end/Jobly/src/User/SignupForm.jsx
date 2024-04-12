@@ -1,21 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Error from "../Error";
+import Alert from "../Alert";
 
 /**
  * SignUp component renders form for user signp
  *
  * Props: signupUser()
- * State: signUpUser { username, password, firstName, lastName, email}, error[]
+ * State: signUpUser { username, password, firstName, lastName, email, errors}
  *
  * App-> RoutesList -> SignupForm
  */
 
 function SignupForm({ signupUser }) {
-    const initialData = { username: '', password: '', firstName: '', lastName: '', email: '' };
+    const initialData = { username: '', password: '', firstName: '', lastName: '', email: '', errors: null };
 
     const [signUpUserData, setsignUpUserData] = useState(initialData);
-    const [errors, setErrors] = useState(null);
 
     const navigate = useNavigate(null);
 
@@ -32,11 +31,17 @@ function SignupForm({ signupUser }) {
     async function handleSignup(evt) {
         evt.preventDefault();
         try {
-            await signupUser(signUpUserData);
+            const { errors, ...rest } = signUpUserData;
+
+            await signupUser(rest);
             navigate("/");
             setsignUpUserData(initialData);
+
         } catch (err) {
-            setErrors(err);
+            setsignUpUserData(data => ({
+                ...data,
+                errors: err
+            }));
         }
 
     }
@@ -87,8 +92,8 @@ function SignupForm({ signupUser }) {
                                     value={signUpUserData.email}
                                     onChange={handleChange} />
                             </div>
-                            {errors ?
-                                errors.map((e, i) => <Error key={i} error={e} />)
+                            {signUpUserData.errors ?
+                                signUpUserData.errors.map((e, i) => <Alert key={i} message={e} type={"danger"} />)
                                 : null}
                             <div className="d-grid">
                                 <button className="btn btn-primary">

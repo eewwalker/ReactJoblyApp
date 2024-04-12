@@ -12,6 +12,7 @@ import userContext from "./User/userContext";
  */
 function Homepage() {
     const { user } = useContext(userContext);
+
     return (
         <div className="Homepage">
             <div className="container text-center">
