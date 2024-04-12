@@ -18,7 +18,7 @@ import ProfileForm from "./User/ProfileForm";
  * App-> RoutesList -> {Homepage, CompanyList, JobList, CompanyDetail, LoginForm, SignupForm, ProfileForm, NotFound }
  */
 
-function RoutesList({ loginUser, signupUser }) {
+function RoutesList({ loginUser, signupUser, updateUser }) {
     const { user } = useContext(userContext);
 
 
@@ -30,7 +30,7 @@ function RoutesList({ loginUser, signupUser }) {
                     < Route path='/companies' element={< CompanyList />} />
                     < Route path='/jobs' element={< JobList />} />
                     < Route path='/companies/:name' element={< CompanyDetail />} />
-                    < Route path="/profile" element={< ProfileForm />} />
+                    < Route path="/profile" element={< ProfileForm updateUser={updateUser} />} />
                     < Route path="/login" element={< LoginForm loginUser={loginUser} />} />
                     < Route path="/signup" element={< SignupForm signupUser={signupUser} />} />
                     < Route path='*' element={<Navigate to='/' />} />

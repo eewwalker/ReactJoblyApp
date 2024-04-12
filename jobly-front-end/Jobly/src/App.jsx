@@ -42,6 +42,7 @@ function App() {
             user: resp,
             hasDataLoaded: true
           }));
+          localStorage.setItem('token', data.token);
 
         } catch (err) {
           setData(data => ({
@@ -56,6 +57,8 @@ function App() {
           ...data,
           user: null
         }));
+        JoblyApi.resetToken();
+        localStorage.removeItem('token');
       }
     }
     fetchUserData();
@@ -65,7 +68,6 @@ function App() {
   /** Update user with data from loginForm */
   async function loginUser(userData) {
     const token = await JoblyApi.login(userData);
-    localStorage.setItem('token', token);
     setData(data => ({
       ...data,
       hasDataLoaded: true,
@@ -77,7 +79,6 @@ function App() {
   /** Update user with data from signupForm */
   async function signupUser(userData) {
     const token = await JoblyApi.signUp(userData);
-    localStorage.setItem('token', token);
     setData(data => ({
       ...data,
       hasDataLoaded: true,
@@ -88,13 +89,19 @@ function App() {
 
   /** logout user. set token back to initial token and Navigate back to home */
   function logout() {
-    localStorage.removeItem('token');
     setData(data => ({
       ...data,
       token: null
     }));
+  }
 
-    JoblyApi.resetToken();
+  async function updateUser(userData) {
+    const user = await JoblyApi.updateUser(userData);
+    setData(data => ({
+      ...data,
+      user: user
+    }));
+
   }
 
   if (data.token && data.user === null) {
@@ -108,7 +115,7 @@ function App() {
       <BrowserRouter>
         <userContext.Provider value={data} >
           <NavBar logout={logout} />
-          <RoutesList loginUser={loginUser} signupUser={signupUser} />
+          <RoutesList loginUser={loginUser} signupUser={signupUser} updateUser={updateUser} />
         </userContext.Provider>
       </BrowserRouter>
     </div>
