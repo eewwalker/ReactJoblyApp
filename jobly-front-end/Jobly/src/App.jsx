@@ -19,17 +19,17 @@ import { jwtDecode } from "jwt-decode";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-
+  const [token, setToken] = useState(localStorage.getItem('token') || null);
+  const [loggedOut, setLogOutState] = useState(false);
   useEffect(function getUserDataFromDb() {
 
     async function fetchUserData() {
-      console.log('token', localStorage.getItem('logIntoken'));
-      if (localStorage.getItem('logIntoken')) {
-        try {
-          const { username } = jwtDecode(localStorage.getItem('logIntoken'));
 
-          JoblyApi.token = localStorage.getItem('logIntoken');
+      if (token) {
+        try {
+          const { username } = jwtDecode(token);
+
+          JoblyApi.token = token;
 
           const resp = await JoblyApi.getUserData(username);
           setUser(resp);
@@ -50,27 +50,23 @@ function App() {
   async function loginUser(userData) {
     const token = await JoblyApi.login(userData);
     setToken(token);
-    localStorage.setItem('logIntoken', token);
-
+    localStorage.setItem('token', token);
   }
 
   /** Update user with data from signupForm */
   async function signupUser(userData) {
     const token = await JoblyApi.signUp(userData);
     setToken(token);
-    localStorage.setItem('signUptoken', token);
+    localStorage.setItem('token', token);
 
   }
 
   /** logout user. set token back to initial token and Navigate back to home */
   function logout() {
-    localStorage.removeItem('logIntoken');
-    console.log('tokenb4logout', token);
+    localStorage.removeItem('token');
     setToken(null);
-    console.log('logouttoken', token);
     JoblyApi.resetToken();
-
-    return <Navigate to="/" />;
+    setLogOutState(true);
   }
 
   return (
