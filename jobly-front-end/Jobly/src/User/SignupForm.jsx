@@ -63,6 +63,7 @@ function SignupForm({ signupUser }) {
                             <div className="mb-3">
                                 <label htmlFor="password" className="form-label">Password</label>
                                 <input className="form-control"
+                                    type="password"
                                     id="password"
                                     name="password"
                                     value={signUpUserData.password}
