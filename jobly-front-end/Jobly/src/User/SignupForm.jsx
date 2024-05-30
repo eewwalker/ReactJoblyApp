@@ -47,7 +47,7 @@ function SignupForm({ signupUser }) {
     }
     return (
         <div className="SignupForm">
-            <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+            <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4 mt-5">
                 <h2 className="mb-3">Sign Up</h2>
                 <div className="card">
                     <div className="card-body">
@@ -97,7 +97,7 @@ function SignupForm({ signupUser }) {
                                 signUpUserData.errors.map((e, i) => <Alert key={i} message={e} type={"danger"} />)
                                 : null}
                             <div className="d-grid">
-                                <button className="btn btn-primary">
+                                <button className="btn btn-secondary">
                                     Submit
                                 </button>
                             </div>

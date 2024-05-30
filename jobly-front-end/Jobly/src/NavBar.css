@@ -1,0 +1,21 @@
+/* .Navigation a.active {
+    font-weight: bold;
+} */
+
+.Navigation-item {
+  padding: 5px;
+  text-decoration: none;
+  color: black;
+}
+
+.Navigation-item.active {
+  font-weight: bold;
+}
+
+.Navigation {
+  background-color: lightgray;
+}
+
+#Navigation-logout {
+  font-weight: normal !important;
+}

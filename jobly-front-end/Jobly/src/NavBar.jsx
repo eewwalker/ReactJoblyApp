@@ -1,6 +1,8 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import userContext from "./User/userContext";
+import { Navbar, Nav, NavbarBrand } from 'reactstrap';
+import './NavBar.css';
 
 /**
  * NavBar component links to Companies, Jobs, Home
@@ -11,46 +13,51 @@ import userContext from "./User/userContext";
  * App-> NavBar-> Links & NavLinks
  */
 
-//Refactor to make user links a component and anon links a component
 function NavBar({ logout }) {
     const { user } = useContext(userContext);
     return (
-        <div className="Navbar">
+        <Navbar className='Navigation'>
+			<NavbarBrand href='/'>Jobly</NavbarBrand>
 
-            <nav className="navbar navbar-expand-md">
-                <div className="container-fluid">
-                    <Link className="Home nav-link" to="/">Jobly</Link>
-
-
-                    {user ?
-                        <ul className="navbar-nav ms-auto">
-                            <li className="nav-item me-4">
-                                <NavLink className="Companies nav-link" to="/companies">Companies</NavLink>
-                            </li>
-                            <li className="nav-item me-4">
-                                <NavLink className="Jobs nav-link" to="/jobs">Jobs</NavLink>
-                            </li>
-                            <li className="nav-item me-4">
-                                <NavLink className="Jobs nav-link" to="/profile">Profile</NavLink>
-                            </li>
-                            <li className="nav-item me-4">
-                                <NavLink className="Jobs nav-link" onClick={logout}>Log out {user.username}</NavLink>
-                            </li>
-                        </ul>
-                        :
-                        <ul className="navbar-nav ms-auto">
-                            <li className="nav-item me-4">
-                                <NavLink className="Jobs nav-link" to="/login">Login</NavLink>
-                            </li>
-                            <li className="nav-item me-4">
-                                <NavLink className="Jobs nav-link" to="/signup">Signup</NavLink>
-                            </li>
-                        </ul>
-                    }
-
-                </div>
-            </nav>
-        </div>
+			{user ? (
+				<Nav>
+					<NavLink
+						to='/companies'
+						className={'Navigation-item'}>
+						Companies
+					</NavLink>
+					<NavLink
+						to='/jobs'
+						className={'Navigation-item'}>
+						Jobs
+					</NavLink>
+					<NavLink
+						to='/profile'
+						className={'Navigation-item'}>
+						Profile
+					</NavLink>
+					<NavLink
+						id='Navigation-logout'
+						onClick={logout}
+						className={'Navigation-item'}>
+						Log out {user.username}
+					</NavLink>
+				</Nav>
+			) : (
+				<Nav>
+					<NavLink
+						to='/login'
+						className={'Navigation-item'}>
+						Login
+					</NavLink>
+					<NavLink
+						to='/signup'
+						className={'Navigation-item'}>
+						Sign Up
+					</NavLink>
+				</Nav>
+			)}
+		</Navbar>
     );
 }
 

@@ -1,0 +1,36 @@
+.Homepage {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url('./img/background.jpeg');
+  opacity: .7;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.Homepage::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5); /* Adjust this as desired */
+  z-index: 1;
+}
+
+.Homepage h1, .Homepage h2 {
+  position: relative;
+  z-index: 2;
+}
+
+.Homepage h1 {
+  color: white;
+}
+
+.Homepage h2 {
+  color: whitesmoke;
+}
