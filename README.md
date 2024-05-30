@@ -34,6 +34,6 @@ Jobly is a full-stack job application portal built with React on the frontend an
    This command will automatically open a browser window with the app.
 
 
-Live Demo: [https://jobly-app-walker.surge.sh/](https://jobly-app-walker.surge.sh/)
+Live Demo: [https://get-a-jobly.surge.sh/](https://get-a-jobly.surge.sh/)
 
    
