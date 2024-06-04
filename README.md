@@ -19,10 +19,11 @@ Jobly is a full-stack job application portal built with React on the frontend an
 - **Job Applications**: Authenticated users can apply for jobs.
 - **My Jobs**: Authenticated users can view the jobs they've applied to.
 - **User Profile**: Users can view and update their profile information.
+- **Authentication**: JWT for secure token-based authentication
 
 ### Built With
 [![My Skills](https://skillicons.dev/icons?i=react,bootstrap)](https://skillicons.dev)
-- **Authentication**: JWT for secure token-based authentication
+
 
 
 # Installation
